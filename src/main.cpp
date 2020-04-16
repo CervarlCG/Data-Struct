@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string.h>
-#include "examples/stack/postfix.h"
+#include "examples/stack/delimitators.h"
 
 using namespace std;
 
@@ -9,9 +9,9 @@ std::string postfix(std::string in);
 int main()
 {
     string in = "";
-    cout << "Enter the infix expression: ";
+    cout << "Enter the evaluation expression: ";
     cin >> in;
-    Postfix p(in);
-    cout << "Postfix: " << p.convert() << endl;
+    Delimitator l('(', ')');
+    cout << "Postfix: " << l.check(in) << endl;
     return 0;
 }

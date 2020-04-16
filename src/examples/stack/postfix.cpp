@@ -1,68 +1,86 @@
 #include "postfix.h"
 #include <iostream>
 
-Postfix::Postfix(std::string in)
+Postfix::Postfix(std::string infix)
 {
-    this->in = in;
+    this->convert(infix);
 }
 
-std::string Postfix::convert()
+std::string Postfix::get()
 {
-    std::string postfix = "";
-    int length = this->in.length();
-    char current = ' ';
-    char op;
-    bool pushed;
+    return this->postfixExp;
+}
+
+void Postfix::convert(std::string infix)
+{
+    Stack<char> operatorsStack;
+    int length = infix.length();
+    bool pushed = false;
+    char currentChar = ' ';
+    char topOperator = ' ';
 
     for(int i = 0; i < length; i++)
     {
-        current = this->in[i];
-        pushed = false;
-        if(this->isOperator(current))
+        currentChar = infix[i];
+        if(this->isOperator(currentChar))
         {
-            if(current == ')')
+            /*
+                Push the aritmetic operators in the stack
+            */
+            pushed = false;
+            while(!pushed)
             {
-                while(!this->s.isEmpty() && (op = this->s.pop()) != '(')
+                if(
+                    operatorsStack.isEmpty() ||
+                    operatorsStack.getTop() == '(' ||
+                    this->getOperatorPriority(currentChar) > this->getOperatorPriority(operatorsStack.getTop())
+                )
                 {
-                    postfix += op;
+                    operatorsStack.push(currentChar);
+                    pushed = true;
                 }
-            }
-            else if(current == '(')
-            {
-                this->s.push(current);
-            }
-            else
-            {
-                while(!pushed)
+                else
                 {
-                    if(
-                        this->s.isEmpty() ||
-                        this->getOperatorPriority(current) > this->getOperatorPriority(this->s.getTop())
-                    )
-                    {
-                        this->s.push(current);
-                        pushed = true;
-                    }
-                    else
-                    {
-                        postfix += this->s.pop();
-                    }
+                    this->postfixExp += operatorsStack.pop();
                 }
             }
         }
-        else
+        else if(this->isOperand(currentChar))
         {
-            postfix += current;
+            /*
+                Put the operand in the postfix expression
+            */
+            this->postfixExp += currentChar;
+        }
+
+        /*
+            If the operator is a close parenthesis then pop from the stack
+        */
+        else if(currentChar == ')')
+        {
+            while(!operatorsStack.isEmpty() && (topOperator = operatorsStack.pop()) != '(')
+            {
+                this->postfixExp += topOperator;
+            }
+        }
+
+        /*
+            If the operator is a open parenthesis then push in the stack
+        */
+        else if(currentChar == '(')
+        {
+            operatorsStack.push(currentChar);
         }
     }
 
-    while(!this->s.isEmpty())
+    /*
+        Pop all operators from the stack
+    */
+    while(!operatorsStack.isEmpty())
     {
-        postfix += this->s.pop();
+        this->postfixExp += operatorsStack.pop();
 
     }
-
-    return postfix;
 }
 
 unsigned int Postfix::getOperatorPriority(char op)
@@ -70,26 +88,23 @@ unsigned int Postfix::getOperatorPriority(char op)
     unsigned int priority = 100;
     switch (op)
     {
-    case '^':
-        priority = 3;
-        break;
-    case '*':
-        priority = 2;
-        break;
-    case '/':
-        priority = 2;
-        break;
-    case '+':
-        priority = 1;
-        break;
-    case '-':
-        priority = 1;
-        break;
-    case '(':
-        priority = 0;
-        break;
-    default:
-        break;
+        case '^':
+            priority = 3;
+            break;
+        case '*':
+            priority = 2;
+            break;
+        case '/':
+            priority = 2;
+            break;
+        case '+':
+            priority = 1;
+            break;
+        case '-':
+            priority = 1;
+            break;
+        default:
+            break;
     }
 
     return priority;
@@ -101,7 +116,17 @@ bool Postfix::isOperator(char val)
             val == '-' || 
             val == '*' || 
             val == '/' || 
-            val == '^' ||
-            val == '(' || 
-            val == ')';
+            val == '^';
+}
+
+bool Postfix::isOperand(char c)
+{
+    if(
+        (c >= '0' && c <= '9') ||
+        (c >= 'a' && c <= 'z') ||
+        (c >= 'A' && c <= 'Z')
+    )
+        return true;
+    
+    return false;
 }

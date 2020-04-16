@@ -3,19 +3,21 @@
 class Postfix
 {
     private:
-        Stack<char> s;
-        std::string in;
+        std::string postfixExp;
         unsigned int getOperatorPriority(char op);
         bool isOperator(char val);
+        void convert(std::string in);
+        bool isOperand(char c);
     public:
         /*
         *   Postfix constructor
         *   @param in A string whith the expression on infix notation
         * */
         Postfix(std::string in);
+
         /*
-        *   Get the expression on postfix notation
-        *   @return a string with the expression on postfix notation
+        *   Return the postfix expression
+        * 
         * */
-        std::string convert();
+        std::string get();
 };

@@ -9,4 +9,6 @@ All the data struct are in the directory libs/datastruct and are header files, o
 ## Examples
 A example for all data struct are in the src/examples folder
 
-1. Stack: A converter from infix to postfix
+1. Stack: 
+    1. A converter from infix to postfix
+    2. A delimitator checker
