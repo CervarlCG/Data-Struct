@@ -4,6 +4,9 @@
 #ifndef STACK_H
 #define STACK_H
 
+/*
+*   Data struct STACK
+*/
 template <class T>
 class Stack
 {
@@ -11,11 +14,34 @@ class Stack
         Node<T>* top;
         unsigned int size;
     public:
+        /*
+        * Constructor
+        */
         Stack();
+        /*
+        *   Get the size of the stack
+        *   @return the stack size
+        */
         unsigned int getSize();
+        /*
+        *   Check if the stack is empty
+        *   @return true if the stack is empty
+        */
         bool isEmpty();
+        /*
+        *   Push a element in the stack
+        * @param value the value to storage
+        */
         void push(T value);
+        /*
+        *   Revome the top element from the stack
+        *   @return the element removed
+        */
         T pop();
+        /*
+        *   Retrieve the top element without remove it from top
+        *   @return The top element 
+        */
         T getTop();
 };
 
