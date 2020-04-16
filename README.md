@@ -5,3 +5,8 @@ Dynamics data struct in C++, the current data structs available are:
 
 ## Usage
 All the data struct are in the directory libs/datastruct and are header files, only include the datastruct header file in the main file o anything other file
+
+## Examples
+A example for all data struct are in the src/examples folder
+
+1. Stack: A converter from infix to postfix
