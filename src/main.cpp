@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string.h>
-#include "examples/stack/delimitators.h"
-#include "../libs/datastruct/Queue.h"
+#include "examples/queue/airplane.h"
 
 using namespace std;
 
