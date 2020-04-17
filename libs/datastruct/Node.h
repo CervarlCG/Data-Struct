@@ -19,6 +19,7 @@
     Node<T>::Node(T value)
     {
         this->setValue(value);
+        this->next = nullptr;
     }
 
     template <class T>
